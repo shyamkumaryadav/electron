@@ -43,22 +43,22 @@ function spawnAndCheckExitCode (cmd, args, opts) {
   }
 }
 
-function cpplint (args) {
-  args.unshift(`--project_root=${SOURCE_ROOT}`);
-  const result = childProcess.spawnSync(IS_WINDOWS ? 'cpplint.bat' : 'cpplint.py', args, { encoding: 'utf8', shell: true });
-  // cpplint.py writes EVERYTHING to stderr, including status messages
-  if (result.stderr) {
-    for (const line of result.stderr.split(/[\r\n]+/)) {
-      if (line.length && !line.startsWith('Done processing ') && line !== 'Total errors found: 0') {
-        console.warn(line);
-      }
-    }
-  }
-  if (result.status !== 0) {
-    if (result.error) console.error(result.error);
-    process.exit(result.status || 1);
-  }
-}
+// function cpplint (args) {
+//   args.unshift(`--project_root=${SOURCE_ROOT}`);
+//   const result = childProcess.spawnSync(IS_WINDOWS ? 'cpplint.bat' : 'cpplint.py', args, { encoding: 'utf8', shell: true });
+//   // cpplint.py writes EVERYTHING to stderr, including status messages
+//   if (result.stderr) {
+//     for (const line of result.stderr.split(/[\r\n]+/)) {
+//       if (line.length && !line.startsWith('Done processing ') && line !== 'Total errors found: 0') {
+//         console.warn(line);
+//       }
+//     }
+//   }
+//   if (result.status !== 0) {
+//     if (result.error) console.error(result.error);
+//     process.exit(result.status || 1);
+//   }
+// }
 
 function isObjCHeader (filename) {
   return /\/(mac|cocoa)\//.test(filename);
@@ -74,7 +74,7 @@ const LINTERS = [{
     } else {
       spawnAndCheckExitCode('python3', ['script/run-clang-format.py', '-r', ...filenames]);
     }
-    cpplint(filenames);
+    // cpplint(filenames);
   }
 }, {
   key: 'objc',
@@ -93,7 +93,7 @@ const LINTERS = [{
       '-whitespace/indent',
       '-whitespace/parens'
     ];
-    cpplint(['--extensions=mm,h', `--filter=${filter.join(',')}`, ...filenames]);
+    // cpplint(['--extensions=mm,h', `--filter=${filter.join(',')}`, ...filenames]);
   }
 }, {
   key: 'python',
