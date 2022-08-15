@@ -66,9 +66,9 @@ for:
     - ps: |
         $apiUrl = 'https://ci.appveyor.com/api'     
         # get build
-        $build = Invoke-RestMethod -Method Get -Uri "$apiUrl/projects/$env:APPVEYOR_ACCOUNT_NAME/$env:APPVEYOR_PROJECT_SLUG/builds/$env:APPVEYOR_BUILD_ID"
-        Write-Host "BUILD: $build"
-        foreach ($job in $build.jobs) {
+        $build_info = Invoke-RestMethod -Method Get -Uri "$apiUrl/projects/$env:APPVEYOR_ACCOUNT_NAME/$env:APPVEYOR_PROJECT_SLUG/builds/$env:APPVEYOR_BUILD_ID"
+        Write-Host "BUILD: $build_info.build"
+        foreach ($job in $build_info.build.jobs) {
           Write-Host "JOB: $job"
           if ($job.name -eq "Build") {
             Write-Host "FOUND Build"
