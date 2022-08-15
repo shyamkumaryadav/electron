@@ -67,11 +67,15 @@ for:
         $apiUrl = 'https://ci.appveyor.com/api'     
         # get build
         $build = Invoke-RestMethod -Method Get -Uri "$apiUrl/projects/$env:APPVEYOR_ACCOUNT_NAME/$env:APPVEYOR_PROJECT_SLUG/builds/$env:APPVEYOR_BUILD_ID"
+        Write-Host "BUILD: $build"
         foreach ($job in $build.jobs) {
+          Write-Host "JOB: $job"
           if ($job.name -eq "Build") {
+            Write-Host "FOUND Build"
             $jobId = $job.jobId
             # get job artifacts (just to see what we've got)
             $artifacts = Invoke-RestMethod -Method Get -Uri "$apiUrl/buildjobs/$jobId/artifacts"
+            Write-Host "Artifacts: $artifacts"
             foreach ($artifact in $artifacts) {              
               $artifactFileName = $artifact.fileName
               Write-Host "Downloading is: $artifactFileName"
