@@ -64,5 +64,5 @@ for:
     - dir *
     - ps: |
         foreach ($artifactName in $artifacts.keys) {
-          Write-Host "Artifact is: $artifactName: $artifacts[$artifactName]"
+          Write-Host "Artifact is: $artifactName : $artifacts[$artifactName]"
         }
